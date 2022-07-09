@@ -9,6 +9,6 @@ log_format = '<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</le
 
 # Данные для подключения PostgreSQL
 host = '127.0.0.1'
-user = 'kanal_service'
-password = 'matvey'
-dbname = 'myproject'
+user = ''
+password = ''
+dbname = ''
