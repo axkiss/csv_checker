@@ -86,3 +86,4 @@ class DataBaseManager:
             logger.error(f'Неудачное выполнение SQL запроса в таблицу {self.TABLE_NAME}.')
             logger.error(err)
             self._close_connection()
+            sys.exit(1)

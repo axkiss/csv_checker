@@ -22,7 +22,7 @@ def check_folders(*folders: str):
                 os.mkdir(folder)
             except OSError:
                 logger.error(f'Создать директорию {folder} не удалось.')
-                sys.exit()
+                sys.exit(1)
             else:
                 logger.success(f'Успешно создана директория {folder}.')
 
