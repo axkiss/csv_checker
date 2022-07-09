@@ -31,3 +31,4 @@ WHERE depdate = '2021-01-03'
 **psycopg2** - так как работаю с PostgreSQL
 
 ## Requirements
+- Python 3.10
