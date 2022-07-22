@@ -37,26 +37,29 @@ def main():
     check_folders(IN_FOLDER, OUT_FOLDER, OK_FOLDER, ERR_FOLDER)
 
     # Подключаем базу данных
-    database = DataBaseManager(dbname, user, password, host, table_name='flight')
-    database.create_table()
+    database = DataBaseManager(dbname, user, password, host)
 
     # Просматриваем папку IN_FOLDER на наличие файлов
     while True:
         for csvFile in os.listdir(IN_FOLDER):
             data_from_filename = parser_name_csv(csvFile)
+
             if data_from_filename is None:
                 move_file(IN_FOLDER, ERR_FOLDER, csvFile)
             else:
                 jsonFile = csv_to_json(os.path.join(IN_FOLDER, csvFile), data_from_filename, OUT_FOLDER)
+
                 if jsonFile is None:
                     move_file(IN_FOLDER, ERR_FOLDER, csvFile)
                 else:
-                    move_file(IN_FOLDER, OK_FOLDER, csvFile)
-                    values = (csvFile,
-                              int(data_from_filename['flt']),
-                              data_from_filename['date'],
-                              data_from_filename['dep'])
+                    values = {'file_name': csvFile, **data_from_filename}
                     database.insert_values(values)
+
+                    if database.transaction_status:
+                        move_file(IN_FOLDER, OK_FOLDER, csvFile)
+                    else:
+                        move_file(IN_FOLDER, ERR_FOLDER, csvFile)
+
         time.sleep(60)
 
 
