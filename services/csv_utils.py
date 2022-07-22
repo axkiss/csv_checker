@@ -19,7 +19,9 @@ def parser_name_csv(csv_file: str) -> dict | None:
         logger.warning(f'Файл {csv_file} имеет некорректное название.')
         return None
 
-    date = raw_data[0]
+    date, flight_number, departure_airport = raw_data
+
+    # Проверяем валидность даты
     if len(date) != 8:
         logger.warning(f'Файл {csv_file} имеет неверную "дату" {date} в названии.')
         return None
@@ -32,18 +34,16 @@ def parser_name_csv(csv_file: str) -> dict | None:
             return None
 
     #  Считаем, что номер рейса содержит всегда 4 цифры
-    flight_number = raw_data[1]
     if not re.fullmatch('^\d{4}$', flight_number):
         logger.warning(f'Файл {csv_file} имеет неверный "номер рейса" {flight_number} в названии.')
         return None
 
     #  Считаем, что аэропорт вылета может состоять только из трех заглавных букв
-    departure_airport = raw_data[2]
     if not re.fullmatch('^[A-Z]{3}$', departure_airport):
         logger.warning(f'Файл {csv_file} имеет неверный "аэропорт вылета" {departure_airport} в названии.')
         return None
 
-    return {'date': date, 'flt': flight_number, 'dep': departure_airport}
+    return {'depdate': date, 'flt': flight_number, 'dep': departure_airport}
 
 
 def csv_to_json(csv_file_path: str, data_from_filename: dict, folder_to_save: str) -> str | None:
