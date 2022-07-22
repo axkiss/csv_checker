@@ -4,7 +4,7 @@ import time
 
 from loguru import logger
 
-from services.db import DataBaseManager
+from services.database import DataBaseManager
 from settings import *
 from services.csv_utils import parser_name_csv, csv_to_json
 
